@@ -52,7 +52,7 @@ class Tv_planner < Sinatra::Base
     erb :index
   end
 
-  post "/register" do
+  get "/register" do
     erb :register
     #user = User.new(params[:user])
     #redirect "/"

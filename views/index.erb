@@ -16,6 +16,7 @@
 <div class="container pull-left span3 dashb-pos">
         <ul class="nav nav-list">
           <li class="nav-header">My Panel</li>
+          <li><a href="#"><i class="icon-white icon-home"></i> All Series</a></li>
           <li class="active"><a href="#"><i class="icon-white icon-home"></i> My Series</a></li>
           <li><a href="#"><i class="icon-pencil"></i><span id="what_new"> What's new today</span></a></li>
           <li><a href="#"><i class="icon-pencil"></i> Reminder</a></li>
@@ -28,6 +29,7 @@
 </div>
 
     <div class="span8">
+      <h2> My Series </h2>
       <table class="table table-striped">
         <thead>
           <tr>
@@ -35,27 +37,18 @@
             <th>Episod_no</th>
             <th>Next airdate</th>
           </tr>
-          <tr>
-            <td> Ceva </td>
-            <td> Ceva </td>
-            <td> Ceva </td>
-          </tr>
         </thead>
         <tbody>
-        
-        <% @all_series.each do |item| %>
- 	<tr>
- 		<td> <%= item.name %> </td>
-  		<td> <%= item.next_episode_num %> </td>
-  		<td> <%= item.next_episode_airdate %> </td>
-  	</tr>
-	<% end %>
+          <% @all_series.each do |item| %>
+            <tr>
+               <td> <%= item.name %> </td>
+               <td> <%= item.last_episode_num %> </td>
+               <td> <%= item.last_episode_airdate %> </td>
+            </tr>
+          <% end %>
         </tbody>
       </table>
     </div>
-  </div>
-</div>
 
-        
   </body>
 </html>

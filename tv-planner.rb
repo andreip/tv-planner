@@ -22,6 +22,7 @@ class Tv_planner < Sinatra::Base
   end
 
   get "/" do
-    "Hello"
+    "HEllo"
+    erb :login
   end
 end

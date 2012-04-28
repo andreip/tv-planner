@@ -23,4 +23,18 @@ class Tv_planner < Sinatra::Base
     "HEllo"
     erb :login
   end
+  
+  get "/register" do 
+  	erb :register
+  end 
+  
+  get "/index" do 
+  	erb :index
+  end
+  
+  post "/register" do
+  	user = User.new(params[:user])
+    redirect "/"
+  end
+  
 end

@@ -2,25 +2,30 @@
     <head> <title> ceva </title>
     <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/stylesheets/dashboard.css" rel="stylesheet">
     </head>
 
 <body>
-<ul class="nav nav-list">
 
-          <li class="nav-header">List header</li>
-          <li class="active"><a href="#"><i class="icon-white icon-home"></i> Home</a></li>
-          <li><a href="#"><i class="icon-book"></i> Library</a></li>
-          <li><a href="#"><i class="icon-pencil"></i> Applications</a></li>
+<div class="dashboard-container"> 
+<div class="pull-right">
+  <span id="username"> <%= @user.email %> </span>
+  <a href="/" class="btn">Logout</a>
+</div>
+
+<div class="container pull-left span3 dashb-pos">
+        <ul class="nav nav-list">
+          <li class="nav-header">My Panel</li>
+          <li class="active"><a href="#"><i class="icon-white icon-home"></i> My Series</a></li>
+          <li><a href="#"><i class="icon-pencil"></i><span id="what_new"> What's new today</span></a></li>
+          <li><a href="#"><i class="icon-pencil"></i> Reminder</a></li>
           <li class="nav-header">Another list header</li>
-
           <li><a href="#"><i class="icon-user"></i> Profile</a></li>
           <li><a href="#"><i class="icon-cog"></i> Settings</a></li>
           <li class="divider"></li>
           <li><a href="#"><i class="icon-flag"></i> Help</a></li>
         </ul>
-        
-        
-        </div>
+</div>
 
     <div class="span8">
       <table class="table table-striped">
@@ -29,6 +34,11 @@
             <th>Name</th>
             <th>Episod_no</th>
             <th>Next airdate</th>
+          </tr>
+          <tr>
+            <td> Ceva </td>
+            <td> Ceva </td>
+            <td> Ceva </td>
           </tr>
         </thead>
         <tbody>
@@ -44,6 +54,7 @@
       </table>
     </div>
   </div>
+</div>
 
         
   </body>

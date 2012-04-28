@@ -20,7 +20,10 @@ class Tv_planner < Sinatra::Base
   end
 
   get "/" do
-    "HEllo"
     erb :login
+  end
+
+  get "/register" do
+    erb :register
   end
 end

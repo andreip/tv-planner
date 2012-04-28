@@ -10,22 +10,29 @@ class User < ActiveRecord::Base
 	end
 
 	def get_subscribed_series
-		Series_users_link.where(:user => self)
+		links = Series_users_link.where(:user => self)		
+		series = Array.new;
+
+		links.each do |l|
+  			tmp = Serie.where(:id => l[:seroe])
+		end
+
+		return tmp
 	end
+
 
 	def get_current_alerts
 		series = get_subscribed_series()
-
-		# bad idea ! 
-		now = "acum"
 		current = Array.new;
 
+		now = "acum"
+
 		series.each do |s|
-  			if s[:next_episode_airdate] === now
-  				current << s
-  			end
+			if s[:next_episode_airdate] === now
+				current << s
 		end
 
+		return s;
 	end
 end
 

@@ -5,8 +5,8 @@ Bundler.require :default
 class User < ActiveRecord::Base
 
   def subscribe_to_serie serie
-    new_link = Series_users_link.new(:user_id => self,
-                    :serie_id => serie)
+    new_link = Series_users_link.new(:user_id => self.id ,
+                                     :serie_id => serie.id)
     new_link.save();
   end
 
@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
     series = Array.new;
 
     links.each do |l|
-      series = Serie.where(:id => l[:serie])
+      series << Serie.where(:id => l[:serie_id]).first
     end
 
     return series
@@ -29,7 +29,7 @@ class User < ActiveRecord::Base
     now = "acum"
 
     series.each do |s|
-      if s[:next_episode_airdate] === now
+      if s.next_episode_airdate === now
         current << s
       end
     end
@@ -58,10 +58,6 @@ class Tv_planner < Sinatra::Base
     erb :login
   end
 
-  get "/index" do 
-    erb :index
-  end
-
   get "/register" do
     erb :register
     #user = User.new(params[:user])
@@ -72,7 +68,7 @@ class Tv_planner < Sinatra::Base
     @user = User.where(:email => "adrian.stratulat@cti.pub.ro").first;
     @all_series = @user.get_subscribed_series()
     @alerts = @user.get_current_alerts()
-  erb :index
+    erb :index
   end
 
 end

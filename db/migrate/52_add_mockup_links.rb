@@ -1,9 +1,10 @@
 class AddMockupLinks < ActiveRecord::Migration
 	def up
 		usr = User.where(:email => "adrian.stratulat@cti.pub.ro").first;
-		sr = Serie.where(:name => "Doctor Who").first;
+		sr1 = Serie.where(:name => "Doctor Who").first;
+		sr2 = Serie.where(:name => "Fringe").first;
 
-		Series_users_link.new(:user => usr,
-						      :serie => sr).save();
+		usr.subscribe_to_serie(sr1);
+		usr.subscribe_to_serie(sr2);
 	end
 end

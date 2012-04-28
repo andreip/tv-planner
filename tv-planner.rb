@@ -3,29 +3,39 @@ require "bundler/setup"
 Bundler.require :default
 
 class User < ActiveRecord::Base
-  def subscribe_to_serie serie
-    new_link = Series_users_link.new(:user => self,
-      :serie => serie)
-    new_link.save();
-  end
 
-  def get_subscribed_series
-    Series_users_link.where(:user => self)
-  end
+	def subscribe_to_serie serie
+		new_link = Series_users_link.new(:user => self,
+										:serie => serie)
+		new_link.save();
+	end
 
-  def get_current_alerts
-    series = get_subscribed_series()
+	def get_subscribed_series
+		links = Series_users_link.where(:user => self)		
+		series = Array.new;
 
-    # bad idea !
-    now = "acum"
-    current = Array.new;
+		links.each do |l|
+  			tmp = Serie.where(:id => l[:seroe])
+		end
 
-    series.each do |s|
-      if s[:next_episode_airdate] === now
-        current << s
-      end
-    end
-  end
+		return tmp
+	end
+
+
+	def get_current_alerts
+		series = get_subscribed_series()
+		current = Array.new;
+
+		now = "acum"
+
+		series.each do |s|
+			if s[:next_episode_airdate] === now
+				current << s
+			end
+		end
+
+		return s;
+	end
 end
 
 class Serie < ActiveRecord::Base

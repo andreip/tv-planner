@@ -30,6 +30,7 @@ class User < ActiveRecord::Base
 		series.each do |s|
 			if s[:next_episode_airdate] === now
 				current << s
+			end
 		end
 
 		return s;

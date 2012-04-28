@@ -12,4 +12,11 @@ class AddMockupSerie < ActiveRecord::Migration
 				:url => "...",
 				:last_episode_num => 9,
 				:last_episode_airdate => "acum").save()
+
+	Serie.new(:name => "Glee",
+				:show_id => 7,
+				:clasifiscat => "not awesome",
+				:url => "...",
+				:last_episode_num => 8,
+				:last_episode_airdate => "acum").save()
 end

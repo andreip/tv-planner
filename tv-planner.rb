@@ -68,8 +68,19 @@ class Tv_planner < Sinatra::Base
   get "/dashboard" do
     @user = User.where(:email => "adrian.stratulat@cti.pub.ro").first;
     @all_series = @user.get_subscribed_series()
-    @alerts = @user.get_current_alerts()
     erb :index
+  end
+
+  get "/reminders" do
+    @user = User.where(:email => "adrian.stratulat@cti.pub.ro").first;
+    @alerts = @user.get_current_alerts()
+    erb :reminders
+  end
+
+  get "/all-series" do
+    @user = User.where(:email => "adrian.stratulat@cti.pub.ro").first;
+    @all_series = Serie.all()
+    erb :all_series
   end
 
 end

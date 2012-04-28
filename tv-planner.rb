@@ -4,6 +4,11 @@ Bundler.require :default
 
 class User < ActiveRecord::Base
 
+  def self.check_unique(email)
+    return User.where(:email => email).first.nil?
+  end
+
+
   def subscribe_to_serie serie
     new_link = Series_users_link.new(:user_id => self.id ,
                                      :serie_id => serie.id,
@@ -82,5 +87,20 @@ class Tv_planner < Sinatra::Base
     @all_series = Serie.all()
     erb :all_series
   end
+  
+  post "/register" do
+      if User.check_unique(params[:email]) 
+      	user =  User.new(:email => params[:email], :password => params[:password])
+      	if !user.save 
+        	@error_message = "A fost o eroare cand am salvat utilizatorul. Incearca din nou"
+        	redirect_to "/"
+        	return
+      	end
+      	redirect "/dashboard"
+      else 
+      	"User email is already in use"
+      end     
+  end
+  	
 
 end

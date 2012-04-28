@@ -4,38 +4,38 @@ Bundler.require :default
 
 class User < ActiveRecord::Base
 
-	def subscribe_to_serie serie
-		new_link = Series_users_link.new(:user => self,
-										:serie => serie)
-		new_link.save();
-	end
+  def subscribe_to_serie serie
+    new_link = Series_users_link.new(:user_id => self,
+                    :serie_id => serie)
+    new_link.save();
+  end
 
-	def get_subscribed_series
-		links = Series_users_link.where(:user => self)		
-		series = Array.new;
+  def get_subscribed_series
+    links = Series_users_link.where(:user_id => self)   
+    series = Array.new;
 
-		links.each do |l|
-  			tmp = Serie.where(:id => l[:seroe])
-		end
+    links.each do |l|
+      series = Serie.where(:id => l[:serie])
+    end
 
-		return tmp
-	end
+    return series
+  end
 
 
-	def get_current_alerts
-		series = get_subscribed_series()
-		current = Array.new;
+  def get_current_alerts
+    series = get_subscribed_series()
+    current = Array.new;
 
-		now = "acum"
+    now = "acum"
 
-		series.each do |s|
-			if s[:next_episode_airdate] === now
-				current << s
-			end
-		end
+    series.each do |s|
+      if s[:next_episode_airdate] === now
+        current << s
+      end
+    end
 
-		return s;
-	end
+    return current;
+  end
 end
 
 class Serie < ActiveRecord::Base
@@ -72,7 +72,7 @@ class Tv_planner < Sinatra::Base
     @user = User.where(:email => "adrian.stratulat@cti.pub.ro").first;
     @all_series = @user.get_subscribed_series()
     @alerts = @user.get_current_alerts()
-  erb :dashboard
+  erb :index
   end
 
 end

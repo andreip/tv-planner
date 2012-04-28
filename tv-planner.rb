@@ -56,8 +56,20 @@ class Tv_planner < Sinatra::Base
   get "/" do
     erb :login
   end
-
-
+  
+  get "/register" do 
+  	erb :register
+  end 
+  
+  get "/index" do 
+  	erb :index
+  end
+  
+  post "/register" do
+  	user = User.new(params[:user])
+    redirect "/"
+  end
+  
   get "/dashboard" do
   	@user = User.where(:email => "adrian.stratulat@cti.pub.ro").first;
   	@all_series = @user.get_subscribed_series()

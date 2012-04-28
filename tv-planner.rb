@@ -6,7 +6,8 @@ class User < ActiveRecord::Base
 
   def subscribe_to_serie serie
     new_link = Series_users_link.new(:user_id => self.id ,
-                                     :serie_id => serie.id)
+                                     :serie_id => serie.id,
+                                     :saw => false)
     new_link.save();
   end
 
@@ -29,7 +30,7 @@ class User < ActiveRecord::Base
     now = "acum"
 
     series.each do |s|
-      if s.next_episode_airdate === now
+      if s.last_episode_airdate === now
         current << s
       end
     end

@@ -5,8 +5,8 @@ class CreateTableSerie < ActiveRecord::Migration
       t.string  :name
       t.string  :clasifiscat
       t.string  :url
-      t.integer :next_episode_num
-      t.string  :next_episode_airdate
+      t.integer :last_episode_num
+      t.string  :last_episode_airdate
     end
   end
 

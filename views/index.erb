@@ -21,8 +21,10 @@
         
         
         </div>
-
+ 
+    
     <div class="span8">
+      <h2> filme in general </h2>
       <table class="table table-striped">
         <thead>
           <tr>
@@ -36,13 +38,38 @@
         <% @all_series.each do |item| %>
    	    <tr>
           <td> <%= item.name %> </td>
-    		  <td> <%= item.next_episode_num %> </td>
-    		  <td> <%= item.next_episode_airdate %> </td>
+    		  <td> <%= item.last_episode_num %> </td>
+    		  <td> <%= item.last_episode_airdate %> </td>
         </tr>
         <% end %>
         </tbody>
       </table>
     </div>
+    <hr/>
+    
+    <div class="span8">
+      <h2> apar azi </h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Episod_no</th>
+            <th>Next airdate</th>
+          </tr>
+        </thead>
+        <tbody>
+        
+        <% @alerts.each do |item| %>
+        <tr>
+          <td> <%= item.name %> </td>
+          <td> <%= item.last_episode_num %> </td>
+          <td> <%= item.last_episode_airdate %> </td>
+        </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+
   </div>
 
         

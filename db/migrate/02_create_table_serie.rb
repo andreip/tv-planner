@@ -1,4 +1,4 @@
-class CreateTableSeries < ActiveRecord::Migration
+class CreateTableSerie < ActiveRecord::Migration
   def up
     create_table :series do |t|
       t.integer :show_id

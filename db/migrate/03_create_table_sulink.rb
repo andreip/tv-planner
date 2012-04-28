@@ -1,12 +1,12 @@
 class CreateTableSulink < ActiveRecord::Migration
   def up
-    create_table :series_users_link do |t|
+    create_table :series_users_links do |t|
       t.references :user
-      t.references :series
+      t.references :serie
     end
   end
 
   def down
-    drop_table :series_users_link
+    drop_table :series_users_links
   end
 end

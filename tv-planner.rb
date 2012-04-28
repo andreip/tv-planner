@@ -5,10 +5,12 @@ Bundler.require :default
 class User < ActiveRecord::Base
 end
 
-class Series < ActiveRecord::Base
+class Serie < ActiveRecord::Base
 end
 
 class Series_users_link < ActiveRecord::Base
+	belongs_to :user
+	belongs_to :serie
 end
 
 class Tv_planner < Sinatra::Base

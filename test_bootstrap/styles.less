@@ -1,0 +1,18 @@
+// LESS
+
+@color: #FF0000;
+
+.rounded-corners (@radius: 5px) {
+  border-radius: @radius;
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+}
+
+
+#header {
+  .rounded-corners(10px);
+}
+
+h2 {
+  color: @color;
+}

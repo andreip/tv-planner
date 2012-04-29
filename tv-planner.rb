@@ -54,10 +54,6 @@ class Tv_planner < Sinatra::Base
     end
   end
 
-  get "/register" do
-    erb :register
-  end
-
   post "/register" do
     if User.check_unique(params[:email])
       user = User.new(:email => params[:email], :password => User.encrypt(params[:password]))
@@ -75,8 +71,6 @@ class Tv_planner < Sinatra::Base
   
   def get_current_alerts
     messages = dequeue_messages();
-
-    
   end
 
 end
@@ -90,9 +84,26 @@ class Serie < ActiveRecord::Base
                 :season_nr => season_nr,
                 :airdate => airdate).save()
 
+>>>>>>> Stashed changes
+  end
+
+end
+
+<<<<<<< Updated upstream
+class Serie < ActiveRecord::Base
+
+  def add_episode(name, airdate, episode_nr, season_nr)
+    Episode.new(:serie_id => self.id,
+                :name => name,
+                :episode_nr => episode_nr,
+                :season_nr => season_nr,
+                :airdate => airdate).save()
+
   end
 end
 
+=======
+>>>>>>> Stashed changes
 class Episode < ActiveRecord::Base
   belongs_to :serie
 end

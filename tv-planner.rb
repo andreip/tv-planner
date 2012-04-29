@@ -10,8 +10,7 @@ class User < ActiveRecord::Base
 
   def subscribe_to_serie serie
     new_link = Series_users_link.new(:user_id => self.id ,
-                                     :serie_id => serie.id,
-                                     :saw => false)
+                                     :serie_id => serie.id)
     new_link.save();
   end
 

@@ -27,10 +27,6 @@ class User < ActiveRecord::Base
   def dequeue_messages
     messages = Message.where(:user_id => self.id,
                              :read => false)
-    messages.each do |m|
-      m.read = true
-      m.save()
-    end
 
     return messages
   end
@@ -128,6 +124,13 @@ class Tv_planner < Sinatra::Base
     @my_series = @user.get_subscribed_series()
     puts @my_series.inspect
     erb :index
+  end
+
+  get "/mark_seen" do
+    message = Message.where(:id => params[:id]).first
+    message.read = true
+    message.save()
+    redirect "/reminders"
   end
 
   get "/reminders" do

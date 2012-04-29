@@ -34,7 +34,7 @@
           <tr>
             <th>Name</th>
             <th>Episod_no</th>
-            <th>Next airdate</th>
+            <th>Airdate</th>
           </tr>
         </thead>
         <tbody>
@@ -43,6 +43,9 @@
               <td> <%= item.name %> </td>
               <td> <%= item.episode_nr %> </td>
               <td> <%= item.airdate %> </td>
+              <td> 
+                <a href="/mark_seen?id=<%= item.id %>"> <i class="icon-ok"> </i> </a> 
+              </td>
             </tr>
           <% end %>
         </tbody>

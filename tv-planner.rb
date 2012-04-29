@@ -83,4 +83,9 @@ class Tv_planner < Sinatra::Base
     erb :all_series
   end
 
+  not_found do
+    status 404
+    erb :not_found
+  end
+
 end

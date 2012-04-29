@@ -40,7 +40,7 @@
             <tr>
               <td> <%= item.name %> </td>
               <td>
-                <a href="/subscribe?id=<%= item.id %>"><i class="icon-plus"></i></a>
+                <a href="/subscribe?id=<%= item.id %>"><% if not @my_series.member?(item.id) %><i class="icon-plus"><% end %></i></a>
               </td>
             </tr>
           <% end %>

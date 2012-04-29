@@ -39,6 +39,16 @@ class User < ActiveRecord::Base
     return series
   end
 
+  def get_subscribed_series_ids
+    links = Series_users_link.where(:user_id => self)
+    series = Array.new;
+    links.each do |l|
+      series << l[:serie_id]
+    end
+
+    return series
+  end
+
   def enqueue_message episode_id
     new_message = Message.new(:user_id => self.id,
                               :episode_id => episode_id,

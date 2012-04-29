@@ -118,6 +118,7 @@ class Tv_planner < Sinatra::Base
       erb :login
     else
       @user = User.where(:email => session[:token]).first;
+      @my_series = @user.get_subscribed_series_ids()
       @all_series = Serie.all()
       erb :all_series
     end

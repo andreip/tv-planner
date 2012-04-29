@@ -5,6 +5,7 @@ gem "activerecord"
 gem "sinatra-activerecord"
 gem "sqlite3"
 gem "sinatra-contrib"
+gem "hpricot"
 
 group :development do
   gem "rake"

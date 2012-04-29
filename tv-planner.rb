@@ -150,11 +150,8 @@ class Tv_planner < Sinatra::Base
   end
 
   post "/sessions/create" do
-    #newUser = User.authenticate(params[:session][:email], params[:session][:password])
     user = User.where(:email => params[:email]).first;
-    puts "into login"
     if user.nil?
-      puts "user nil"
       erb :login
     elsif user.has_password?(params[:password])
       puts "user ok password"
@@ -167,13 +164,15 @@ class Tv_planner < Sinatra::Base
   end
 
   get "/remove-subscribtion" do
-    usr = User.where(:email => session[:token]).first;
-
-    rec = Series_users_link.where(:user_id => usr.id,
-                                  :serie_id => params[:id])
-    Series_users_link.delete(rec)
-
-    redirect "/dashboard"
+    if session[:token].nil?
+      erb :login
+    else
+      usr = User.where(:email => session[:token]).first;
+      rec = Series_users_link.where(:user_id => usr.id,
+                                    :serie_id => params[:id])
+      Series_users_link.delete(rec)
+      redirect "/dashboard"
+    end
   end
 
   get "/dashboard" do
@@ -188,45 +187,59 @@ class Tv_planner < Sinatra::Base
   end
 
   get "/mark_seen" do
-    message = Message.where(:id => params[:id]).first
-    message.read = true
-    message.save()
-    redirect "/reminders"
+    if session[:token].nil?
+      erb :login
+    else
+      message = Message.where(:id => params[:id]).first
+      message.read = true
+      message.save()
+      redirect "/reminders"
+    end
   end
 
   get "/reminders" do
-    @user = User.where(:email => session[:token]).first;
-    @alerts = @user.get_current_alerts()
-    erb :reminders
+    if session[:token].nil?
+      erb :login
+    else
+      @user = User.where(:email => session[:token]).first;
+      @alerts = @user.get_current_alerts()
+      erb :reminders
+    end
   end
 
   get "/subscribe" do
-    user = User.where(:email => session[:token]).first;
-
-    ret = Series_users_link.where(:user_id => user.id,
-                                  :serie_id => params[:id])
-
-    if ret.first.nil? === false
-      redirect "/all-series"  
+    if session[:token].nil?
+      erb :login
+    else
+      user = User.where(:email => session[:token]).first;
+      ret = Series_users_link.where(:user_id => user.id,
+                                    :serie_id => params[:id])
+      if ret.first.nil? === false
+        redirect "/all-series"  
+      end
+      user.subscribe_to_serie_by_id( params[:id] )
+      user.save()
+      redirect "/all-series"
     end
-
-    user.subscribe_to_serie_by_id( params[:id] )
-    user.save()
-    redirect "/all-series"
   end
 
   get "/all-series" do
-    @user = User.where(:email => session[:token]).first;
-    @all_series = Serie.all()
-    erb :all_series
+    if session[:token].nil?
+      erb :login
+    else
+      @user = User.where(:email => session[:token]).first;
+      @all_series = Serie.all()
+      erb :all_series
+    end
   end
 
   get "/user" do
-    @user= User.where(:email => session[:token]).first
-    #if @user.nil?
-    #	redirect "/dashboard"
-    #end
-    erb :user
+    if session[:token].nil?
+      erb :login
+    else
+      @user= User.where(:email => session[:token]).first
+      erb :user
+    end
   end
 
   not_found do
@@ -235,9 +248,11 @@ class Tv_planner < Sinatra::Base
   end
 
   get "/logout" do
-    session[:token] = nil
-    redirect "/"
+    if session[:token].nil?
+      erb :login
+    else
+      session[:token] = nil
+      redirect "/"
+    end
   end
-
 end
-

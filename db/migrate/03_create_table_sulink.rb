@@ -3,7 +3,6 @@ class CreateTableSulink < ActiveRecord::Migration
     create_table :series_users_links do |t|
       t.references :user
       t.references :serie
-      t.boolean	   :saw
     end
   end
 

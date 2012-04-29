@@ -21,7 +21,7 @@
           <li><a href="#"><i class="icon-pencil"></i><span id="what_new"> What's new today</span></a></li>
           <li><a href="/reminders"><i class="icon-pencil"></i> Reminders</a></li>
           <li class="nav-header">Another list header</li>
-          <li><a href="#"><i class="icon-user"></i> Profile</a></li>
+          <li><a href="/user"><i class="icon-user"></i> Profile</a></li>
           <li><a href="#"><i class="icon-cog"></i> Settings</a></li>
           <li class="divider"></li>
           <li><a href="#"><i class="icon-flag"></i> Help</a></li>
@@ -34,16 +34,15 @@
         <thead>
           <tr>
             <th>Name</th>
-            <th>Episod_no</th>
-            <th>Next airdate</th>
           </tr>
         </thead>
         <tbody>
-          <% @all_series.each do |item| %>
+          <% @my_series.each do |item| %>
             <tr>
-               <td> <%= item.name %> </td>
-               <td> <%= item.last_episode_num %> </td>
-               <td> <%= item.last_episode_airdate %> </td>
+              <td> <%= item.name %> </td>
+              <td>
+                <a href="/remove-subscribtion?id=<%= item.id %>" ><i class="icon-remove"></i></a>
+              </td>
             </tr>
           <% end %>
         </tbody>

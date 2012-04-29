@@ -27,22 +27,18 @@
         </ul>
 </div>
 
-    <div class="span8">
+    <div class="span3">
       <h2>All Series</h2>
       <table class="table table-striped">
         <thead>
           <tr>
             <th>Name</th>
-            <th>Episod_no</th>
-            <th>Next airdate</th>
           </tr>
         </thead>
         <tbody>
           <% @all_series.each do |item| %>
             <tr>
               <td> <%= item.name %> </td>
-              <td> <%= item.last_episode_num %> </td>
-              <td> <%= item.last_episode_airdate %> </td>
             </tr>
           <% end %>
         </tbody>

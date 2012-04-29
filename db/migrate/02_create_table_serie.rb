@@ -5,12 +5,10 @@ class CreateTableSerie < ActiveRecord::Migration
       t.string  :name
       t.string  :clasifiscat
       t.string  :url
-      t.integer :last_episode_num
-      t.string  :last_episode_airdate
     end
   end
 
   def down
-    drop_table :serial
+    drop_table :series
   end
 end

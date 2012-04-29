@@ -11,10 +11,30 @@ class User < ActiveRecord::Base
 
   def subscribe_to_serie serie
     new_link = Series_users_link.new(:user_id => self.id ,
-                                     :serie_id => serie.id,
-                                     :saw => false)
+                                     :serie_id => serie.id)
     new_link.save();
   end
+
+
+  def enqueue_message episode_id
+    new_message = Message.new(:user_id => self.id,
+                              :episode_id => episode_id,
+                              :read => false)
+    new_message.save()
+  end
+
+
+  def dequeue_messages
+    messages = Message.where(:user_id => self.id,
+                             :read => false)
+    messages.each do |m|
+      m.read = true
+      m.save()
+    end
+
+    return messages
+  end
+
 
   def get_subscribed_series
     links = Series_users_link.where(:user_id => self)   
@@ -29,22 +49,55 @@ class User < ActiveRecord::Base
 
 
   def get_current_alerts
-    series = get_subscribed_series()
-    current = Array.new;
+    messages = dequeue_messages();
+    puts messages.inspect
 
-    now = "acum"
+    ret = Array.new;
 
-    series.each do |s|
-      if s.last_episode_airdate === now
-        current << s
-      end
+    messages.each do |l|
+      ret << Episode.where(:id => l[:episode_id]).first
     end
 
-    return current;
+    return ret
   end
+
 end
 
 class Serie < ActiveRecord::Base
+
+  def add_episode(name, airdate, episode_nr, season_nr, broadcast)
+    ep = Episode.new( :serie_id => self.id,
+                      :name => name,
+                      :episode_nr => episode_nr,
+                      :season_nr => season_nr,
+                      :airdate => airdate)
+
+    ep.save()
+
+    if broadcast === true
+      ep.notify_all_subscribed()
+    end
+
+  end
+end
+
+class Episode < ActiveRecord::Base
+  belongs_to :serie
+
+  def notify_all_subscribed
+    subscribers = Series_users_link.where(:serie_id => self.serie_id)
+
+    subscribers.each do |s|
+      u = User.where(:id => s[:user_id]).first
+      u.enqueue_message(self.id)
+    end
+
+  end
+end
+
+class Message < ActiveRecord::Base
+  belongs_to :user
+  belongs_to :episode
 end
 
 class Series_users_link < ActiveRecord::Base
@@ -72,7 +125,8 @@ class Tv_planner < Sinatra::Base
 
   get "/dashboard" do
     @user = User.where(:email => "adrian.stratulat@cti.pub.ro").first;
-    @all_series = @user.get_subscribed_series()
+    @my_series = @user.get_subscribed_series()
+    puts @my_series.inspect
     erb :index
   end
 
@@ -89,23 +143,22 @@ class Tv_planner < Sinatra::Base
   end
   
   post "/register" do
-      if User.check_unique(params[:email]) 
-      	user =  User.new(:email => params[:email], :password => params[:password])
-      	if !user.save 
-        	@error_message = "A fost o eroare cand am salvat utilizatorul. Incearca din nou"
-        	redirect_to "/"
-        	return
-      	end
-      	redirect "/dashboard"
-      else 
-      	"User email is already in use"
-      end     
+    if User.check_unique(params[:email]) 
+    	user =  User.new(:email => params[:email], :password => params[:password])
+    	if !user.save 
+      	@error_message = "A fost o eroare cand am salvat utilizatorul. Incearca din nou"
+      	redirect_to "/"
+      	return
+    	end
+    	redirect "/dashboard"
+    else 
+    	"User email is already in use"
+    end     
   end
-  	
 
   not_found do
     status 404
     erb :not_found
   end
-
 end
+

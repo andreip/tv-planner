@@ -1,0 +1,53 @@
+<html>
+    <head> <title> ceva </title>
+    <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/stylesheets/dashboard.css" rel="stylesheet">
+    </head>
+<body>
+
+<div class="dashboard-container">
+<div class="pull-right">
+  <span id="username"> <%= @user.email %> </span>
+  <a href="/" class="btn">Logout</a>
+</div>
+
+<div class="container pull-left span3 dashb-pos">
+        <ul class="nav nav-list">
+          <li class="nav-header">My Panel</li>
+          <li class="active"><a href="/all-series"><i class="icon-white icon-home"></i> All Series</a></li>
+          <li><a href="/dashboard"><i class="icon-white icon-home"></i> My Series</a></li>
+          <li><a href="#"><i class="icon-pencil"></i><span id="what_new"> What's new today</span></a></li>
+          <li><a href="/reminders"><i class="icon-pencil"></i> Reminders</a></li>
+          <li class="nav-header">Another list header</li>
+          <li><a href="#"><i class="icon-user"></i> Profile</a></li>
+          <li><a href="#"><i class="icon-cog"></i> Settings</a></li>
+          <li class="divider"></li>
+          <li><a href="#"><i class="icon-flag"></i> Help</a></li>
+        </ul>
+</div>
+
+    <div class="span8">
+      <h2>All Series</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Episod_no</th>
+            <th>Next airdate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @all_series.each do |item| %>
+            <tr>
+              <td> <%= item.name %> </td>
+              <td> <%= item.last_episode_num %> </td>
+              <td> <%= item.last_episode_airdate %> </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+  </body>
+</html>

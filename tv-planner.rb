@@ -17,6 +17,40 @@ class Tv_planner < Sinatra::Base
       erb :login
     else
       redirect "/dashboard"
+  
+  def subscribe_to_serie serie
+    new_link = Series_users_link.new(:user_id => self.id ,
+                                     :serie_id => serie.id)
+    new_link.save();
+  end
+
+
+  def enqueue_message episode_id
+    new_message = Message.new(:user_id => self.id,
+                              :episode_id => episode_id,
+                              :read => false)
+    new_message.save()
+  end
+
+
+  def dequeue_messages
+    messages = Message.where(:user_id => self.id,
+                             :read => false)
+    mssages.each do |m|
+      m.read = true
+      m.save()
+    end
+
+    return messages
+  end
+
+
+  def get_subscribed_series
+    links = Series_users_link.where(:user_id => self)   
+    series = Array.new;
+
+    links.each do |l|
+      series << Serie.where(:id => l[:serie_id]).first
     end
   end
 
@@ -38,6 +72,44 @@ class Tv_planner < Sinatra::Base
       "User email is already in use"
     end
   end
+  
+  def get_current_alerts
+    messages = dequeue_messages();
+
+    
+  end
+
+end
+
+class Serie < ActiveRecord::Base
+
+  def add_episode(name, airdate, episode_nr, season_nr)
+    Episode.new(:serie_id => self.id,
+                :name => name,
+                :episode_nr => episode_nr,
+                :season_nr => season_nr,
+                :airdate => airdate).save()
+
+  end
+end
+
+class Episode < ActiveRecord::Base
+  belongs_to :serie
+end
+
+class Message < ActiveRecord::Base
+  belongs_to :user
+  belongs_to :episode
+end
+
+class Series_users_link < ActiveRecord::Base
+  belongs_to :user
+  belongs_to :serie
+end
+
+class Tv_planner < Sinatra::Base
+  enable :static
+  enable :sessions
 
   post "/sessions/create" do
     user = User.where(:email => params[:email]).first;
@@ -146,4 +218,19 @@ class Tv_planner < Sinatra::Base
       redirect "/"
     end
   end
+  
+  post "/register" do
+    if User.check_unique(params[:email]) 
+    	user =  User.new(:email => params[:email], :password => params[:password])
+    	if !user.save 
+      	@error_message = "A fost o eroare cand am salvat utilizatorul. Incearca din nou"
+      	redirect_to "/"
+      	return
+    	end
+    	redirect "/dashboard"
+    else 
+    	"User email is already in use"
+    end     
+  end
+
 end

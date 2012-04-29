@@ -153,7 +153,16 @@ class Tv_planner < Sinatra::Base
     	redirect "/dashboard"
     else 
     	"User email is already in use"
-    end     
+    end
+  end
+  
+  get "/user" do
+  	@user= User.where(:email => "adrian.stratulat@cti.pub.ro").first
+  	puts @user.inspect
+  	#if @user.nil?
+  	#	redirect "/dashboard"
+  	#end
+  	erb :user
   end
 
   not_found do

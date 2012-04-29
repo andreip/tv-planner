@@ -15,6 +15,11 @@ class User < ActiveRecord::Base
     new_link.save();
   end
 
+  def subscribe_to_serie_by_id serie_id
+    new_link = Series_users_link.new(:user_id => self.id ,
+                                     :serie_id => serie_id)
+    new_link.save();
+  end
 
   def enqueue_message episode_id
     new_message = Message.new(:user_id => self.id,
@@ -119,6 +124,16 @@ class Tv_planner < Sinatra::Base
     #redirect "/"
   end
 
+  get "/remove-subscribtion" do
+    usr = User.where(:email => "adrian.stratulat@cti.pub.ro").first;
+
+    rec = Series_users_link.where(:user_id => usr.id,
+                                  :serie_id => params[:id])
+    Series_users_link.delete(rec)
+
+    redirect "/dashboard"
+  end
+
   get "/dashboard" do
     @user = User.where(:email => "adrian.stratulat@cti.pub.ro").first;
     @my_series = @user.get_subscribed_series()
@@ -138,6 +153,23 @@ class Tv_planner < Sinatra::Base
     @alerts = @user.get_current_alerts()
     erb :reminders
   end
+
+  get "/subscribe" do
+    user = User.where(:email => "adrian.stratulat@cti.pub.ro").first;
+
+    ret = Series_users_link.where(:user_id => user.id,
+                                  :serie_id => params[:id])
+
+    if ret.first.nil? === false
+      redirect "/all-series"  
+    end
+
+    user.subscribe_to_serie_by_id( params[:id] )
+    user.save()
+    redirect "/all-series"
+  end
+
+
 
   get "/all-series" do
     @user = User.where(:email => "adrian.stratulat@cti.pub.ro").first;

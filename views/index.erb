@@ -40,6 +40,9 @@
           <% @my_series.each do |item| %>
             <tr>
               <td> <%= item.name %> </td>
+              <td>
+                <a href="/remove-subscribtion?id=<%= item.id %>" ><i class="icon-remove"></i></a>
+              </td>
             </tr>
           <% end %>
         </tbody>

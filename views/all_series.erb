@@ -39,6 +39,9 @@
           <% @all_series.each do |item| %>
             <tr>
               <td> <%= item.name %> </td>
+              <td>
+                <a href="/subscribe?id=<%= item.id %>"><i class="icon-plus"></i></a>
+              </td>
             </tr>
           <% end %>
         </tbody>

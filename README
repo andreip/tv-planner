@@ -1,1 +1,15 @@
 TV Planner for TV Series.
+
+Working:
+* Alex Burghelea
+* Andrei Petre
+* Adrian Stratulat
+* Marian Craciunescu
+
+TODO and add tickets:
+* get XML feed and update our DB (periodically)[1]
+* design work
+* notify users by email
+* a lot more ...
+
+[1]: http://services.tvrage.com/info.php?page=main
